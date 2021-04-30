@@ -1,20 +1,15 @@
 'use strict'
 
 const Context = require('./src/context');
-const Project = require('./src/project');
-const Readme = require('./src/readme');
+const factory = require('./src/factory');
 
 var Generator = require('yeoman-generator');
-const Docker = require('./src/integration/docker');
 
 module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.ctx = new Context(this);
-    let proj = new Project(this.ctx);
-    proj.readme = new Readme(this.ctx);
-    proj.docker = new Docker(this.ctx);
-    this.proj = proj;
+    this.proj = factory.createMicroServiceProject(this.ctx);
   }
 
   catch (e) {
