@@ -1,0 +1,48 @@
+{
+  "name": "generator-sc",
+  "version": "0.1.0",
+  "description": "a simple & powerful spring cloud scaffold",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "spring",
+    "cloud",
+    "sc",
+    "java",
+    "scaffold",
+    "yeoman",
+    "generator",
+    "yo"
+  ],
+  "dependencies": {
+    "debug": "^4.1.1",
+    "js-yaml": "^3.13.1",
+    "moment": "^2.24.0",
+    "prettify-xml": "^1.2.0",
+    "xml": "^1.0.1",
+    "yeoman-generator": "^1.1.1",
+    "yo-power-generator": "^0.7.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^2.0.0",
+    "husky": "^2.7.0",
+    "nyc": "^14.1.1",
+    "standard-version": "^6.0.1"
+  },
+  "author": "taccisum",
+  "license": "MIT"
+}
