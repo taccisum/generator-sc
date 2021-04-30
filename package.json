@@ -4,7 +4,7 @@
   "description": "a simple & powerful spring cloud scaffold",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 10000 test/**/*.test.js --reporter spec",
     "lint": "eslint .",
     "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
     "commit": "npx git-cz",

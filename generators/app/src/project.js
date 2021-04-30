@@ -140,4 +140,18 @@ module.exports = class Project extends Base {
   get author () {
     return this._author || 'anonymous'
   }
+
+  get basePath () {
+    if (!this.groupId) {
+      return
+    }
+    let sections = this.groupId.split(/\./g)
+    return sections.reduce((p, c) => {
+      return path.join(p, c)
+    })
+  }
+
+  get basePackage () {
+    return this.groupId;
+  }
 }
