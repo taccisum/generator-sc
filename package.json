@@ -4,7 +4,11 @@
   "description": "a simple & powerful spring cloud scaffold",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint .",
+    "cov": "nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
+    "commit": "npx git-cz",
+    "release": "standard-version"
   },
   "files": [
     "generators"
@@ -25,8 +29,7 @@
     "moment": "^2.24.0",
     "prettify-xml": "^1.2.0",
     "xml": "^1.0.1",
-    "yeoman-generator": "^1.1.1",
-    "yo-power-generator": "^0.7.1"
+    "yeoman-generator": "^1.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
@@ -42,6 +45,12 @@
     "husky": "^2.7.0",
     "nyc": "^14.1.1",
     "standard-version": "^6.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm test"
+    }
   },
   "author": "taccisum",
   "license": "MIT"
