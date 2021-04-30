@@ -23,9 +23,13 @@ module.exports = class extends Generator {
 
   async prompting () {
     await this.proj.prompt({
-      name: 'taccisum',
+      name: 'demo-service',
       groupId: 'com.github.taccisum',
       version: '0.1-SNAPSHOT',
+      author: 'taccisum',
+      email: 'liaojinfeng6938@dingtalk.com',
+      url: 'http://gitlab.61info.com:8190/liaojinfeng/apsara-service',
+      licenses: 'MIT',
       readme: {
         type: '.md'
       }
