@@ -6,6 +6,11 @@ module.exports = class Project extends Base {
   constructor (context) {
     super(context);
     context.project = this;
+    this.supports = [
+      'readme',
+      'docker',
+      'info'
+    ]
   }
 
   async prompt (def) {
@@ -39,8 +44,12 @@ module.exports = class Project extends Base {
         return false;
       } }))['project_version'];
 
-    this.readme && await this.readme.prompt(def.readme || {});
-    this.docker && await this.docker.prompt(def.docker || {});
+    for (const idx in this.supports) {
+      if (this.supports.hasOwnProperty(idx)) {
+        let key = this.supports[idx];
+        this[key] && this[key].prompt && await this[key].prompt(def[key] || {});
+      }
+    }
   }
 
   generate () {
@@ -48,7 +57,11 @@ module.exports = class Project extends Base {
       version: this.version || '0.1'
     }))
 
-    this.readme && this.readme.generate();
-    this.docker && this.docker.generate();
+    for (const idx in this.supports) {
+      if (this.supports.hasOwnProperty(idx)) {
+        let key = this.supports[idx];
+        this[key] && this[key].generate && this[key].generate();
+      }
+    }
   }
 }
