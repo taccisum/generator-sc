@@ -10,7 +10,8 @@ module.exports = class Project extends Base {
     this.supports = [
       'readme',
       'docker',
-      'info'
+      'info',
+      'demo'
     ]
   }
 
@@ -122,12 +123,13 @@ module.exports = class Project extends Base {
       return path.join(p, c);
     })
 
-    this._write(path.join('src', 'main', 'java', rpath, 'StartupApplication.java'), this._template(path.join('main', 'java', 'StartupApplication.java'), {
-      current: this.ctx.current.format(this.ctx.dateFormat.full),
-      author: this.author,
-      email: this.email,
-      base_package: gid
-    }))
+    this._write(path.join('src', 'main', 'java', rpath, 'StartupApplication.java'),
+      this._template(path.join('main', 'java', 'StartupApplication.java'), {
+        current: this.ctx.current.format(this.ctx.dateFormat.full),
+        author: this.author,
+        email: this.email,
+        base_package: gid
+      }))
 
     for (const idx in this.supports) {
       if (this.supports.hasOwnProperty(idx)) {
@@ -149,6 +151,14 @@ module.exports = class Project extends Base {
     return sections.reduce((p, c) => {
       return path.join(p, c)
     })
+  }
+
+  get baseJavaPath () {
+    let p = path.join('src', 'main', 'java');
+    if (this.basePath) {
+      return path.join(p, this.basePath)
+    }
+    return p
   }
 
   get basePackage () {

@@ -33,4 +33,16 @@ describe('src/project.js', () => {
       assert(proj.basePath === path.join('com', 'github'))
     });
   });
+
+  describe('get baseJavaPath', () => {
+    it('should default when null', () => {
+      assert(new Project({}).baseJavaPath === path.join('src', 'main', 'java'))
+    });
+
+    it('should concat with group id', () => {
+      let proj = new Project({})
+      proj.groupId = 'com.github'
+      assert(proj.baseJavaPath === path.join('src', 'main', 'java', 'com', 'github'))
+    });
+  });
 });
