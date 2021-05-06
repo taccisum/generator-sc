@@ -8,9 +8,9 @@
     <artifactId>${project_name}</artifactId>
     <version>${version}</version>
 
-    <name>TODO: Demo Service</name>
+    <name>${display_name}</name>
     <url>${url}</url>
-    <description>TODO: project desc</description>
+    <description>${description}</description>
 
     <licenses>
         <license>
@@ -42,6 +42,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+<%
+    let str = '';
+    dependencies.forEach(dep => {
+    str +=`
+        <dependency>
+            <groupId>${dep.group_id}</groupId>
+            <artifactId>${dep.artifact_id}</artifactId>
+            <version>${dep.version}</version>
+        </dependency>`
+    })
+    print(str.substring(1, str.length))
+%>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>

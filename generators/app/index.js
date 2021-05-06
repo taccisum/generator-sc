@@ -24,6 +24,7 @@ module.exports = class extends Generator {
   async prompting () {
     await this.proj.prompt({
       name: 'demo-service',
+      displayName: 'Demo Service',
       groupId: 'com.github.taccisum',
       version: '0.1-SNAPSHOT',
       author: 'taccisum',
@@ -32,6 +33,9 @@ module.exports = class extends Generator {
       licenses: 'MIT',
       readme: {
         type: '.md'
+      },
+      swagger: {
+        enabled: true
       }
     });
   }

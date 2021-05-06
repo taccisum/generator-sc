@@ -1,0 +1,4 @@
+swagger:
+  base-package: ${base_package}.controller
+  info:
+    title: ${project_name}
