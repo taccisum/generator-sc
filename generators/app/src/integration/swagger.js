@@ -1,10 +1,14 @@
 'use strict'
 
-const Base = require('../base')
+const BaseComponent = require('../base_component')
 const path = require('path')
 const _ = require('lodash')
 
-module.exports = class Swagger extends Base {
+module.exports = class Swagger extends BaseComponent {
+  constructor (ctx) {
+    super(ctx, 'Swagger', 'swagger')
+  }
+
   async prompt (def) {
     this.enabled = def.enabled || (await this._prompt({ name: 'enabled',
       message: '是否集成 Swagger',
@@ -29,20 +33,29 @@ module.exports = class Swagger extends Base {
   handlers () {
     let _this = this;
     return {
-      profiles (def) {
+      profiles (def, { local, prod }) {
         _.merge(def, _this._loadYaml(path.join('main', 'resources', 'swagger', 'application.yml'), {
           base_package: _this.ctx.project.basePackage,
           project_name: _this.ctx.project.displayName || _this.ctx.project.name || 'Unknown Project Name'
         })
         )
+        if (prod) {
+          _.merge(prod, _this._loadYaml(path.join('main', 'resources', 'swagger', 'application-prod.yml'), {
+          })
+          )
+        }
       }
     }
   }
 
   generate () {
-    if (!this.enabled) {
-      return
+    if (this.enabled) {
+      this._write(path.join(this.ctx.project.baseJavaPath, 'config', 'SwaggerEndpointPrinter.java'),
+        this._template(
+          path.join('main', 'java', 'config', 'SwaggerEndpointPrinter.java'),
+          _.assign(this._commonProps(), {})
+        )
+      )
     }
-    console.log('');
   }
 }

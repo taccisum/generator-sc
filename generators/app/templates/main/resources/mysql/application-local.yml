@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: ${url}
+    #    账号密码建议通过启动参数设置，避免泄漏
+    username: ${username}
+    password: ${password}
+    driver-class-name: com.mysql.jdbc.Driver

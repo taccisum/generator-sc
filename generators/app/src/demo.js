@@ -1,18 +1,21 @@
 'use strict'
 
-const Base = require('./base')
 const path = require('path')
+const BaseComponent = require('./base_component')
 
-module.exports = class Demo extends Base {
+module.exports = class Demo extends BaseComponent {
+  constructor (ctx) {
+    super(ctx, '示例', 'demo')
+  }
+
+  async prompt0 () {
+
+  }
+
   generate () {
-    let gid = this.ctx.project.groupId || 'com.github.taccisum'
-
-    this._write(path.join(this.ctx.project.baseJavaPath, 'controller', 'DemoController.java'),
-      this._template(path.join('main', 'java', 'controller', 'DemoController.java'), {
-        current: this.ctx.current.format(this.ctx.dateFormat.full),
-        author: this.ctx.project.author,
-        email: this.ctx.project.email,
-        base_package: gid
-      }))
+    if (this.enabled) {
+      this._write(path.join(this.ctx.project.baseJavaPath, 'controller', 'DemoController.java'),
+        this._template(path.join('main', 'java', 'controller', 'DemoController.java'), this._commonProps()))
+    }
   }
 }

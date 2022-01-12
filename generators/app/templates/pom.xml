@@ -48,16 +48,45 @@
     str +=`
         <dependency>
             <groupId>${dep.group_id}</groupId>
-            <artifactId>${dep.artifact_id}</artifactId>
-            <version>${dep.version}</version>
+            <artifactId>${dep.artifact_id}</artifactId>`
+    if (dep.version) {
+        str +=`
+                <version>${dep.version}</version>`
+    }
+    str +=`
         </dependency>`
     })
     print(str.substring(1, str.length))
 %>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -65,31 +94,71 @@
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.0.6.RELEASE</version>
+                <artifactId>spring-boot-parent</artifactId>
+                <version>${boot_version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.SR2</version>
+                <version>${cloud_version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+<%
+if (repos) {
+    let str = '';
+    str += `
+    <repositories>`
+    for (key in repos) {
+        repo = repos[key]
+        str +=`
+            <repository>
+                <id>${key}</id>
+                <name>${repo.name}</name>
+                <url>${repo.url}</url>
+            </repository>`
+    }
+    str += `
+    </repositories>`
+    print(str.substring(1, str.length))
+}
+%>
+
     <build>
-        <finalName>app</finalName>
+        <finalName>${final_name}</finalName>
+<%
+        if (enable_resources_filtering) {
+            print(`
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**.*</include>
+                </includes>
+                <!-- 替换 @变量@ -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>`)
+        }
+%>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>

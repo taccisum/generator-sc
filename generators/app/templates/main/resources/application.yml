@@ -2,3 +2,20 @@ spring:
   profiles:
     active: dev, local
 
+management:
+  server:
+    port: ${actuator_port}
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: ${port}
+  error:
+    include-stacktrace: always
+    include-exception: true
+

@@ -1,17 +1,15 @@
 'use strict'
 
-const Base = require('../base');
+const BaseComponent = require('../base_component');
 
-module.exports = class Docker extends Base {
-  async prompt () {
-    this.enabled = (await this._prompt({ name: 'docker',
-      message: '是否集成 Docker',
-      type: 'confirm'
-    }))['docker'];
+module.exports = class Docker extends BaseComponent {
+  constructor (ctx) {
+    super(ctx, 'Docker', 'docker')
+  }
 
-    if (this.enabled) {
-      // do something here
-    }
+  async prompt0 (def) {
+    // do something here
+    console.log('集成 docker')
   }
 
   generate () {
@@ -19,6 +17,11 @@ module.exports = class Docker extends Base {
       return
     }
     this._write('Dockerfile', this._template('Dockerfile', {
+      jar_name: this.ctx.project.finalName
     }))
+  }
+
+  _key () {
+    return 'docker'
   }
 }

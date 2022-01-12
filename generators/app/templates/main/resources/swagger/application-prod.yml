@@ -1,0 +1,2 @@
+swagger:
+  enabled: false # 关闭 swagger ui
