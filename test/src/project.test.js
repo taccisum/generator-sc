@@ -11,37 +11,40 @@ describe('src/project.js', () => {
   })
 
   describe('get basePackage', () => {
-    it('should null by default', () => {
-      assert(new Project({}).basePackage == null)
+    it('should not empty by default', () => {
+      assert(new Project({}).basePackage.length > 0)
     });
 
-    it('should same as group id', () => {
+    it('should same as group id + project name', () => {
       let proj = new Project({})
       proj.groupId = 'com.github'
-      assert(proj.basePackage === 'com.github')
+      proj.projectName = 'foo'
+      assert(proj.basePackage === 'com.github.foo')
     });
   });
 
   describe('get basePath', () => {
-    it('should null by default', () => {
-      assert(new Project({}).basePath == null)
+    it('should not empty by default', () => {
+      assert(new Project({}).basePath.length > 0)
     });
 
-    it('should convert from group id', () => {
+    it('should convert from base package', () => {
       let proj = new Project({})
-      proj.groupId = 'com.github'
+      proj._basePackage = 'com.github'
       assert(proj.basePath === path.join('com', 'github'))
     });
   });
 
   describe('get baseJavaPath', () => {
     it('should default when null', () => {
-      assert(new Project({}).baseJavaPath === path.join('src', 'main', 'java'))
+      let proj = new Project({})
+      proj._basePackage = 'com.foo'
+      assert(proj.baseJavaPath === path.join('src', 'main', 'java', 'com', 'foo'))
     });
 
-    it('should concat with group id', () => {
+    it('should concat with base package', () => {
       let proj = new Project({})
-      proj.groupId = 'com.github'
+      proj._basePackage = 'com.github'
       assert(proj.baseJavaPath === path.join('src', 'main', 'java', 'com', 'github'))
     });
   });
